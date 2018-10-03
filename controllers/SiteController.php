@@ -19,7 +19,7 @@ class SiteController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'only' => ['logout'],
                 'rules' => [
                     [
@@ -30,7 +30,7 @@ class SiteController extends Controller
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'logout' => ['post'],
                 ],
@@ -55,12 +55,21 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
+     * Страница с кнопкой.
+     *
+     * Здесь пользователь будет нажимать кнопку,
+     * после чего будет генерироваться приз
      *
      * @return string
      */
     public function actionIndex()
     {
+        // TODO: Проверка прав
+
+        if (Yii::$app->request->post('getPrize', false)) {
+            // TODO: Обработка нажатия кнопки
+        }
+
         return $this->render('index');
     }
 
