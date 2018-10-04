@@ -14,6 +14,20 @@ class PrizeService
      */
     private $yii;
 
+    /**
+     * Prize type (money|products|loyalty points)
+     *
+     * @var string
+     */
+    private $prizeType;
+
+    /**
+     * Amount|count of prize(s)
+     *
+     * @var float
+     */
+    private $prizeValue;
+
     public function __construct(Yii $yii)
     {
         $this->yii = $yii;
