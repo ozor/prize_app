@@ -18,7 +18,7 @@ class Prize
         return [
             self::TYPE_MONEY,
             self::TYPE_PRODUCT,
-            self::TYPE_PRODUCT,
+            self::TYPE_LOYALTY,
         ];
     }
 }
