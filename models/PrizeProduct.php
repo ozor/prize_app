@@ -16,8 +16,8 @@ class PrizeProduct extends ActiveRecord
         return $this->hasOne(UserPrize::class, ['id' => 'user_prise_id']);
     }
 
-    public function getProduct()
+    public function getProducts()
     {
-        return $this->hasOne(Product::class, ['id' => 'product_id']);
+        return $this->hasMany(Product::class, ['id' => 'id']);
     }
 }
