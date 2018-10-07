@@ -9,15 +9,6 @@ use Yii;
  */
 class ExchangeService
 {
-    /**
-     * @var Yii
-     */
-    private $yii;
-
-    public function __construct(Yii $yii)
-    {
-        $this->yii = $yii;
-    }
 
     /**
      * Exchange money to loyalty points

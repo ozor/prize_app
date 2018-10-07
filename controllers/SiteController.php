@@ -2,13 +2,13 @@
 
 namespace app\controllers;
 
+use app\models\PrizeService;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\ContactForm;
 
 class SiteController extends Controller
 {
@@ -23,16 +23,10 @@ class SiteController extends Controller
                 'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'index', 'result', 'refuse', 'moneyToLoyalty', 'sendMoneyToAccount'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'logout' => ['post'],
                 ],
             ],
         ];
@@ -55,22 +49,73 @@ class SiteController extends Controller
     }
 
     /**
-     * Страница с кнопкой.
-     *
-     * Здесь пользователь будет нажимать кнопку,
-     * после чего будет генерироваться приз
+     * The button action.
      *
      * @return string
      */
     public function actionIndex()
     {
-        // TODO: Проверка прав
-
         if (Yii::$app->request->post('getPrize', false)) {
-            // TODO: Обработка нажатия кнопки
+            $prizeService = new PrizeService();
+
+            if ($prizeService->generate()) {
+                return $this->redirect(['result']);
+            }
         }
 
         return $this->render('index');
+    }
+
+    /**
+     * Win results page
+     *
+     * @return mixed
+     */
+    public function actionResult()
+    {
+        return $this->render('result');
+    }
+
+    /**
+     * Refuse the prize
+     *
+     * @return mixed
+     */
+    public function actionRefuse()
+    {
+        // TODO: Refuse the prize
+
+        Yii::$app->session->setFlash('result', 'You has been refused your prize');
+
+        return $this->goBack();
+    }
+
+    /**
+     * Exchange money to User's loyalty points
+     *
+     * @return mixed
+     */
+    public function actionMoneyToLoyalty()
+    {
+        // TODO: Money to Loyalty
+
+        Yii::$app->session->setFlash('result', 'Money was exchanged to your loyalty points');
+
+        return $this->goBack();
+    }
+
+    /**
+     * Send money to User's account
+     *
+     * @return mixed
+     */
+    public function actionSendMoneyToAccount()
+    {
+        // TODO: Send money
+
+        Yii::$app->session->setFlash('result', 'Money was sent to your account');
+
+        return $this->goBack();
     }
 
     /**
@@ -105,33 +150,5 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
-    }
-
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
     }
 }

@@ -16,14 +16,14 @@ class UserPrize extends ActiveRecord
      *
      * @var string
      */
-    public $prizeType;
+    public $prize_type;
 
     /**
-     * Does User receive this prize (1) or not (0)
+     * Does User receive this prize or not
      *
-     * @var int
+     * @var boolean
      */
-    public $isReceived = 0;
+    public $is_received = false;
 
     public function getUser()
     {

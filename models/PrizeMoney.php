@@ -6,6 +6,8 @@ use yii\db\ActiveRecord;
 
 class PrizeMoney extends ActiveRecord
 {
+    const MAX_DEFAULT_AMOUNT = 100;
+
     /**
      * @var int
      */
@@ -20,13 +22,33 @@ class PrizeMoney extends ActiveRecord
      */
     public $amount;
 
+    /**
+     * @return UserPrize
+     */
     public function getUserPrise()
     {
         return $this->hasOne(UserPrize::class, ['id' => 'user_prise_id']);
     }
 
+    /**
+     * @return Money
+     */
     public function getMoney()
     {
         return $this->hasOne(Money::class, ['id' => 'money_id']);
+    }
+
+    public function getMinAmount()
+    {
+        return 1;
+    }
+
+    public function getMaxAmount()
+    {
+        $availableMoney = $this->getMoney()->amount;
+
+        return (self::MAX_DEFAULT_AMOUNT > $availableMoney)
+            ? self::MAX_DEFAULT_AMOUNT
+            : $availableMoney;
     }
 }

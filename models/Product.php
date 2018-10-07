@@ -21,7 +21,7 @@ class Product extends ActiveRecord
      * If User receives this product, the product will be deleted.
      * If User refuse to receive, the product will be unmarked as reserved.
      *
-     * @var int
+     * @var boolean
      */
-    public $isReserved = 0;
+    public $is_reserved = false;
 }

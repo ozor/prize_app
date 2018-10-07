@@ -9,15 +9,6 @@ use Yii;
  */
 class BankAPIService
 {
-    /**
-     * @var Yii
-     */
-    private $yii;
-
-    public function __construct(Yii $yii)
-    {
-        $this->yii = $yii;
-    }
 
     /**
      * Sending money to the client's account via bank API
