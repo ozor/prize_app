@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecord;
 
 class PrizeLoyalty extends ActiveRecord
@@ -20,6 +21,9 @@ class PrizeLoyalty extends ActiveRecord
      */
     public $amount;
 
+    /**
+     * @return ActiveQueryInterface|UserPrize
+     */
     public function getUserPrise()
     {
         return $this->hasOne(UserPrize::class, ['id' => 'user_prise_id']);

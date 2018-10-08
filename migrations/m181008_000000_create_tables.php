@@ -6,6 +6,8 @@ class m181008_000000_create_tables extends Migration
 {
     public function up()
     {
+        // TODO: This migration not finished yet
+
         $this->createTable('money', [
             'id' => $this->primaryKey(),
             'amount' => $this->float()->notNull(),

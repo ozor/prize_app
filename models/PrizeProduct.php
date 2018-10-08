@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecord;
 
 class PrizeProduct extends ActiveRecord
@@ -11,11 +12,17 @@ class PrizeProduct extends ActiveRecord
      */
     public $id;
 
+    /**
+     * @return ActiveQueryInterface|UserPrize
+     */
     public function getUserPrise()
     {
         return $this->hasOne(UserPrize::class, ['id' => 'user_prise_id']);
     }
 
+    /**
+     * @return ActiveQueryInterface|Product
+     */
     public function getProduct()
     {
         return $this->hasOne(Product::class, ['id' => 'product_id']);

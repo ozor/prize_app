@@ -2,12 +2,11 @@
 
 namespace app\controllers;
 
-use app\models\PrizeService;
+use app\services\PrizeService;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\filters\VerbFilter;
 use app\models\LoginForm;
 
 class SiteController extends Controller
@@ -56,11 +55,10 @@ class SiteController extends Controller
     public function actionIndex()
     {
         if (Yii::$app->request->post('getPrize', false)) {
-            $prizeService = new PrizeService();
+            (new PrizeService())->generate(); // TODO: generate() method didn't tested for workability yet
+            Yii::$app->session->setFlash('result', 'You are win!');
 
-            if ($prizeService->generate()) {
-                return $this->redirect(['result']);
-            }
+            return $this->redirect(['result']);
         }
 
         return $this->render('index');
@@ -71,8 +69,10 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionResult()
+    public function actionResult($id) // TODO: $id - the ID of UserPrize Model
     {
+        // TODO: Render correct view
+
         return $this->render('result');
     }
 
@@ -81,10 +81,9 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionRefuse()
+    public function actionRefuse($id) // TODO: $id - the ID of UserPrize Model
     {
-        // TODO: Refuse the prize
-
+        (new PrizeService())->refuse($id); // TODO: refuse() method not implemented yet
         Yii::$app->session->setFlash('result', 'You has been refused your prize');
 
         return $this->goBack();

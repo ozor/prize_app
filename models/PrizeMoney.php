@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecord;
 
 class PrizeMoney extends ActiveRecord
@@ -23,7 +24,7 @@ class PrizeMoney extends ActiveRecord
     public $amount;
 
     /**
-     * @return UserPrize
+     * @return ActiveQueryInterface|UserPrize
      */
     public function getUserPrise()
     {
@@ -31,7 +32,7 @@ class PrizeMoney extends ActiveRecord
     }
 
     /**
-     * @return Money
+     * @return ActiveQueryInterface|Money
      */
     public function getMoney()
     {
@@ -47,7 +48,7 @@ class PrizeMoney extends ActiveRecord
     {
         $availableMoney = $this->getMoney()->amount;
 
-        return (self::MAX_DEFAULT_AMOUNT > $availableMoney)
+        return (self::MAX_DEFAULT_AMOUNT >= $availableMoney)
             ? self::MAX_DEFAULT_AMOUNT
             : $availableMoney;
     }

@@ -11,14 +11,18 @@ $this->title = "You're winner!";
             <div class="col-lg-12">
                 <h2><?=$this->title; ?></h2>
 
+                <p>TODO: Flash message row</p>
+
                 <div>
-                    Today you're winner!
+                    <strong>Today you're winner!</strong>
 
-                    TODO: view if User win Money
+                    <p>TODO: View if User win Money</p>
 
-                    TODO: view if User win Product
+                    <p>TODO: View if User win Product</p>
 
-                    TODO: view if User win Loyalty
+                    <p>TODO: View if User win Loyalty</p>
+
+                    <p>TODO: the Refuse button</p>
                 </div>
             </div>
         </div>

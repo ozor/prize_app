@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\services;
 
 use Yii;
 
@@ -12,9 +12,11 @@ class ExchangeService
 
     /**
      * Exchange money to loyalty points
+     *
+     * TODO: Not implemented yet
      */
     public function exchange()
     {
-        // Exchange will be here
+        // TODO: Exchange will be here
     }
 }

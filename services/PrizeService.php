@@ -1,7 +1,10 @@
 <?php
 
-namespace app\models;
+namespace app\services;
 
+use app\models\Prize;
+use app\models\UserPrize;
+use app\services\prize\PrizeFactory;
 use Yii;
 
 /**
@@ -24,12 +27,23 @@ class PrizeService
     private $prizeValue;
 
     /**
-     * Generate a prize
+     * Generates a prize
      */
     public function generate()
     {
         $this->generatePrizeType();
         $this->generatePrizeValue();
+    }
+
+    /**
+     * Refuses a prize
+     */
+    public function refuse($id)
+    {
+        /** @var UserPrize $model */
+        $model = null; // TODO: Correct Prize model!
+
+        PrizeFactory::getPrize($model->prizeType)->refuse();
     }
 
     private function generatePrizeType()
@@ -43,55 +57,9 @@ class PrizeService
     private function generatePrizeValue()
     {
         $userPrizeModel = new UserPrize();
-        $userPrizeModel->prizeType = $this->prizeType;
+        $userPrizeModel->prize_type = $this->prizeType;
 
-        switch ($this->prizeType) {
-            case Prize::TYPE_PRODUCT:
-                return $this->generatePrizeProduct($userPrizeModel);
-            case Prize::TYPE_MONEY:
-                return $this->generatePrizeMoney($userPrizeModel);
-            case Prize::TYPE_LOYALTY:
-                return $this->generatePrizeLoyalty($userPrizeModel);
-            default:
-                throw new \Exception('Unknown Prize type');
-        }
-    }
-
-    private function generatePrizeProduct($userPrizeModel)
-    {
-        /** @var PrizeProduct $model */
-        $model = $userPrizeModel->getPrize();
-
-        $products = $model->getProducts();
-        $item = rand(0, (count($products)-1));
-
-        /** @var Product $product */
-        $product = $products[$item];
-
-        $this->prizeValue = $product;
-        $product->isReserved = true;
-
-        return $this->prizeValue;
-    }
-
-    private function generatePrizeMoney($userPrizeModel)
-    {
-        /** @var PrizeMoney $model */
-        $model = $userPrizeModel->getPrize();
-
-        $this->prizeValue = rand($model->getMinAmount(), $model->getMaxAmount());
-        $model->amount = $this->prizeValue;
-        $model->getMoney()->amount -= $this->prizeValue;
-
-        return $this->prizeValue;
-    }
-
-    private function generatePrizeLoyalty($userPrizeModel)
-    {
-        /** @var PrizeLoyalty $model */
-        $model = $userPrizeModel->getPrize();
-
-        return $this->prizeValue;
+        $this->prizeValue = PrizeFactory::getPrize($this->prizeType)->generate();
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\services;
 
 use Yii;
 
@@ -12,9 +12,11 @@ class BankAPIService
 
     /**
      * Sending money to the client's account via bank API
+     *
+     * TODO: Not implemented yet
      */
     public function sendToAccount()
     {
-        // Sending will be here here
+        // TODO: Sending will be here here
     }
 }
