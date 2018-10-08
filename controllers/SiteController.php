@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\services\BankAPIService;
+use app\services\ExchangeService;
 use app\services\PrizeService;
 use Yii;
 use yii\filters\AccessControl;
@@ -97,6 +99,7 @@ class SiteController extends Controller
     public function actionMoneyToLoyalty()
     {
         // TODO: Money to Loyalty
+        (new ExchangeService())->exchangeMoneyToLoyalty();
 
         Yii::$app->session->setFlash('result', 'Money was exchanged to your loyalty points');
 
@@ -111,6 +114,7 @@ class SiteController extends Controller
     public function actionSendMoneyToAccount()
     {
         // TODO: Send money
+        (new BankAPIService())->sendToAccount();
 
         Yii::$app->session->setFlash('result', 'Money was sent to your account');
 
