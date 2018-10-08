@@ -2,33 +2,72 @@
 
 namespace app\services\prize;
 
+use app\models\Money;
 use app\models\Prize;
 use app\models\UserPrize;
 use app\models\PrizeMoney as PrizeMoneyModel;
 
 class PrizeMoney implements PrizeInterface
 {
-    // TODO: Not checked for workability yet
+    /**
+     * TODO: Not checked for workability yet
+     *
+     * @return int
+     * @throws \Exception
+     */
     public function generate()
     {
         $userPrizeModel = new UserPrize();
         $userPrizeModel->prize_type = Prize::TYPE_MONEY;
+        $userPrizeModel->save();
 
         /** @var PrizeMoneyModel $model */
         $model = $userPrizeModel->getPrize();
 
         $amount = rand($model->getMinAmount(), $model->getMaxAmount());
 
-        $model->amount = $amount;
-        $model->getMoney()->amount -= $amount;
-        // TODO: Save changes
+        if ($amount == 0) {
+            throw new \Exception("No money here");
+        }
+
+        $this->moveMoneyToUser($model, $amount);
 
         return $amount;
     }
 
-    // TODO: Not implemented yet
-    public function refuse()
+    /**
+     * TODO: Not checked for workability yet
+     *
+     * @param PrizeMoneyModel $model
+     */
+    public function refuse($model)
     {
-        // TODO
+        $transaction = PrizeMoneyModel::getDb()->beginTransaction();
+
+        $moneyModel = $model->getMoney();
+        $moneyModel->amount += $model->amount;
+        $moneyModel->save();
+
+        $model->delete();
+
+        $transaction->commit();
+    }
+
+    /**
+     * @param PrizeMoneyModel $model
+     * @param float $amount
+     */
+    private function moveMoneyToUser($model, $amount)
+    {
+        $transaction = PrizeMoneyModel::getDb()->beginTransaction();
+
+        $model->amount = $amount;
+        $model->save();
+
+        $moneyModel = $model->getMoney();
+        $moneyModel->amount -= $amount;
+        $moneyModel->save();
+
+        $transaction->commit();
     }
 }

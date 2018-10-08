@@ -12,5 +12,5 @@ interface PrizeInterface
     /**
      * Refuses a prize
      */
-    public function refuse();
+    public function refuse($model);
 }

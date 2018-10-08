@@ -7,6 +7,15 @@ use yii\db\ActiveRecord;
 
 class PrizeLoyalty extends ActiveRecord
 {
+    const MIN_AMOUNT = 1;
+
+    const MAX_AMOUNT = 100;
+
+    /**
+     * Rate to exchange Money to Loyalty
+     */
+    const EXCHANGE_RATE = 10;
+
     /**
      * @var int
      */

@@ -14,6 +14,7 @@ class PrizeProduct implements PrizeInterface
     {
         $userPrizeModel = new UserPrize();
         $userPrizeModel->prize_type = Prize::TYPE_PRODUCT;
+        $userPrizeModel->save();
 
         /** @var PrizeProductModel $model */
         $model = $userPrizeModel->getPrize();
@@ -25,13 +26,13 @@ class PrizeProduct implements PrizeInterface
         $product = $products[$item];
 
         $product->is_reserved = true;
-        // TODO: Save changes
+        $product->save();
 
         return $product;
     }
 
     // TODO: Not implemented yet
-    public function refuse()
+    public function refuse($model)
     {
         // TODO
     }

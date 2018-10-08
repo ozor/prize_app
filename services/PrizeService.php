@@ -6,6 +6,8 @@ use app\models\Prize;
 use app\models\UserPrize;
 use app\services\prize\PrizeFactory;
 use Yii;
+use yii\web\BadRequestHttpException;
+use yii\web\NotFoundHttpException;
 
 /**
  * Service that generates a prize
@@ -24,7 +26,12 @@ class PrizeService
      *
      * @var float
      */
-    private $prizeValue;
+    private $prizeModel;
+
+    /**
+     * @var UserPrize
+     */
+    private $model;
 
     /**
      * Generates a prize
@@ -41,9 +48,32 @@ class PrizeService
     public function refuse($id)
     {
         /** @var UserPrize $model */
-        $model = null; // TODO: Correct Prize model!
+        if (!$model = $this->findModel($id)) {
+            throw new NotFoundHttpException('Model not found');
+        }
 
-        PrizeFactory::getPrize($model->prizeType)->refuse();
+        PrizeFactory::getPrize($model->prize_type)->refuse($model);
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrizeType()
+    {
+        return $this->prizeType;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPrizeModel()
+    {
+        return $this->prizeModel;
+    }
+
+    private function findModel($id)
+    {
+        return UserPrize::find()->where(['id' => (int)$id])->one();
     }
 
     private function generatePrizeType()
@@ -59,22 +89,6 @@ class PrizeService
         $userPrizeModel = new UserPrize();
         $userPrizeModel->prize_type = $this->prizeType;
 
-        $this->prizeValue = PrizeFactory::getPrize($this->prizeType)->generate();
-    }
-
-    /**
-     * @return string
-     */
-    public function getPrizeType()
-    {
-        return $this->prizeType;
-    }
-
-    /**
-     * @return float
-     */
-    public function getPrizeValue()
-    {
-        return $this->prizeValue;
+        $this->prizeModel = PrizeFactory::getPrize($this->prizeType)->generate();
     }
 }

@@ -11,13 +11,14 @@ class PrizeLoyalty implements PrizeInterface
     public function generate()
     {
         $userPrizeModel = new UserPrize();
-        $userPrizeModel->prize_type = Prize::TYPE_PRODUCT;
+        $userPrizeModel->prize_type = Prize::TYPE_LOYALTY;
+        $userPrizeModel->save();
 
         // TODO
     }
 
     // TODO: Not implemented yet
-    public function refuse()
+    public function refuse($model)
     {
         // TODO
     }
