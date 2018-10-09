@@ -26,6 +26,11 @@ class UserPrize extends ActiveRecord
      */
     public $is_received = false;
 
+    public static function tableName()
+    {
+        return '{{user_prize}}';
+    }
+
     /**
      * @return ActiveQueryInterface|User
      */

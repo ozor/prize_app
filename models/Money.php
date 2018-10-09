@@ -17,4 +17,9 @@ class Money extends ActiveRecord
      * @var float
      */
     public $amount;
+
+    public static function tableName()
+    {
+        return '{{money}}';
+    }
 }
