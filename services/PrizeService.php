@@ -26,7 +26,7 @@ class PrizeService
      *
      * @var float
      */
-    private $prizeModel;
+    private $prizeValue;
 
     /**
      * @var UserPrize
@@ -66,9 +66,9 @@ class PrizeService
     /**
      * @return float
      */
-    public function getPrizeModel()
+    public function getPrizeValue()
     {
-        return $this->prizeModel;
+        return $this->prizeValue;
     }
 
     private function findModel($id)
@@ -86,9 +86,7 @@ class PrizeService
 
     private function generatePrizeValue()
     {
-        $userPrizeModel = new UserPrize();
-        $userPrizeModel->prize_type = $this->prizeType;
-
-        $this->prizeModel = PrizeFactory::getPrize($this->prizeType)->generate();
+        $service = PrizeFactory::getPrize($this->prizeType);
+        $this->prizeValue = $service->generate();
     }
 }

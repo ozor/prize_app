@@ -5,9 +5,9 @@ namespace app\services\prize;
 use app\models\Prize;
 use app\models\Product;
 use app\models\UserPrize;
-use app\models\PrizeProduct as PrizeProductModel;
+use app\models\PrizeProduct;
 
-class PrizeProduct implements PrizeInterface
+class PrizeProductService implements PrizeInterface
 {
     // TODO: Not checked for workability yet
     public function generate()
@@ -16,8 +16,9 @@ class PrizeProduct implements PrizeInterface
         $userPrizeModel->prize_type = Prize::TYPE_PRODUCT;
         $userPrizeModel->save();
 
-        /** @var PrizeProductModel $model */
-        $model = $userPrizeModel->getPrize();
+        $model = new PrizeProduct();
+        $model->link('UserPrise', $userPrizeModel);
+        $model->save();
 
         $products = $model->getProducts();
         $item = rand(0, (count($products)-1));
@@ -34,6 +35,6 @@ class PrizeProduct implements PrizeInterface
     // TODO: Not implemented yet
     public function refuse($model)
     {
-        // TODO
+        $model->delete();
     }
 }

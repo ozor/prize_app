@@ -5,9 +5,9 @@ namespace app\services\prize;
 use app\models\Money;
 use app\models\Prize;
 use app\models\UserPrize;
-use app\models\PrizeMoney as PrizeMoneyModel;
+use app\models\PrizeMoney;
 
-class PrizeMoney implements PrizeInterface
+class PrizeMoneyService implements PrizeInterface
 {
     /**
      * TODO: Not checked for workability yet
@@ -21,8 +21,9 @@ class PrizeMoney implements PrizeInterface
         $userPrizeModel->prize_type = Prize::TYPE_MONEY;
         $userPrizeModel->save();
 
-        /** @var PrizeMoneyModel $model */
-        $model = $userPrizeModel->getPrize();
+        $model = new PrizeMoney();
+        $model->link('UserPrise', $userPrizeModel);
+        $model->link('Money', Money::findOne());
 
         $amount = rand($model->getMinAmount(), $model->getMaxAmount());
 

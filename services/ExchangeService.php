@@ -18,10 +18,10 @@ class ExchangeService
      *
      * TODO: Not implemented yet
      */
-    public function exchangeMoneyToLoyalty()
+    public function exchangeMoneyToLoyalty($userPrizeModel)
     {
         // TODO: Exchange will be here
-        $moneyModel = new Money();
+        $moneyModel = Money::findOne();
         $moneyAmout = $moneyModel->amount;
 
         $prizeLoyaltyModel = new PrizeLoyalty();
@@ -33,13 +33,14 @@ class ExchangeService
             $moneyModel->amount -= $exchangeAmount;
             $moneyModel->save();
 
-            $prizeMoneyModel = new PrizeMoney();
-            $prizeMoneyModel->amount = $exchangeAmount;
-            // TODO: SetMoney
-            // TODO: SetUserPrize
-            $prizeMoneyModel->save();
-
-            $prizeLoyaltyModel->delete();
+            // TODO: Надо наоборот: деньги > очки лояльности
+//            $prizeMoneyModel = new PrizeMoney();
+//            $prizeMoneyModel->amount = $exchangeAmount;
+//            $prizeMoneyModel->link('UserPrise', $userPrizeModel);
+//            $prizeMoneyModel->link('Money', $moneyModel);
+//            $prizeMoneyModel->save();
+//
+//            $prizeLoyaltyModel->delete();
 
             $transaction->commit();
         }
