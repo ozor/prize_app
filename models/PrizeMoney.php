@@ -23,6 +23,11 @@ class PrizeMoney extends ActiveRecord
      */
     public $amount;
 
+    public static function tableName()
+    {
+        return '{{prize_money}}';
+    }
+
     /**
      * @return ActiveQueryInterface|UserPrize
      */

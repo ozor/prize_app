@@ -4,8 +4,9 @@ namespace app\services\prize;
 
 use app\models\Prize;
 use app\models\UserPrize;
+use app\models\PrizeLoyalty;
 
-class PrizeLoyalty implements PrizeInterface
+class PrizeLoyaltyService implements PrizeInterface
 {
     // TODO: Not implemented yet
     public function generate()
@@ -16,12 +17,15 @@ class PrizeLoyalty implements PrizeInterface
         var_dump($userPrizeModel); exit;
         $userPrizeModel->save();
 
-        // TODO
+        $model = new PrizeLoyalty();
+        $model->link('UserPrise', $userPrizeModel);
+        $model->amount = rand(PrizeLoyalty::MIN_AMOUNT, PrizeLoyalty::MAX_AMOUNT);
+        $model->save();
     }
 
     // TODO: Not implemented yet
     public function refuse($model)
     {
-        // TODO
+        $model->delete();
     }
 }

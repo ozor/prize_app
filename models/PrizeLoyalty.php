@@ -30,6 +30,11 @@ class PrizeLoyalty extends ActiveRecord
      */
     public $amount;
 
+    public static function tableName()
+    {
+        return '{{prize_loyalty}}';
+    }
+
     /**
      * @return ActiveQueryInterface|UserPrize
      */

@@ -12,6 +12,11 @@ class PrizeProduct extends ActiveRecord
      */
     public $id;
 
+    public static function tableName()
+    {
+        return '{{prize_product}}';
+    }
+
     /**
      * @return ActiveQueryInterface|UserPrize
      */

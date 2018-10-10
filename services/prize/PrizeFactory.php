@@ -10,11 +10,11 @@ class PrizeFactory
     {
         switch ($prizeType) {
             case Prize::TYPE_PRODUCT:
-                return new PrizeProduct();
+                return new PrizeProductService();
             case Prize::TYPE_MONEY:
-                return new PrizeMoney();
+                return new PrizeMoneyService();
             case Prize::TYPE_LOYALTY:
-                return new PrizeLoyalty();
+                return new PrizeLoyaltyService();
             default:
                 throw new \Exception('Unknown Prize type');
         }

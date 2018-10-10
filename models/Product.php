@@ -24,4 +24,9 @@ class Product extends ActiveRecord
      * @var boolean
      */
     public $is_reserved = false;
+
+    public static function tableName()
+    {
+        return '{{product}}';
+    }
 }
