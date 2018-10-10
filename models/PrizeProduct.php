@@ -14,7 +14,7 @@ class PrizeProduct extends ActiveRecord
 
     public static function tableName()
     {
-        return '{{prize_product}}';
+        return '{{%prize_product}}';
     }
 
     /**

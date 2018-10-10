@@ -13,14 +13,12 @@ class PrizeLoyaltyService implements PrizeInterface
     {
         $userPrizeModel = new UserPrize();
         $userPrizeModel->prize_type = Prize::TYPE_LOYALTY;
-
-        var_dump($userPrizeModel); exit;
-        $userPrizeModel->save();
+        $userPrizeModel->save(false);
 
         $model = new PrizeLoyalty();
-        $model->link('UserPrise', $userPrizeModel);
         $model->amount = rand(PrizeLoyalty::MIN_AMOUNT, PrizeLoyalty::MAX_AMOUNT);
-        $model->save();
+        $model->save(false);
+        $model->link('userPrise', $userPrizeModel);
     }
 
     // TODO: Not implemented yet

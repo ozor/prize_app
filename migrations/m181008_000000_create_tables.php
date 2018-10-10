@@ -39,9 +39,9 @@ class m181008_000000_create_tables extends Migration
 
         $this->createTable('{{%user_prize}}', [
             'id' => $this->primaryKey(),
-            'prize_type' => $this->string()->notNull(),
-            'is_received' => $this->boolean()->notNull(),
-            'user_id' => $this->integer()->notNull(),
+            'prize_type' => $this->string(),
+            'is_received' => $this->boolean()->defaultValue(false),
+            'user_id' => $this->integer(),
         ]);
         $this->addForeignKey(
             'fk-user_prize-user_id',
@@ -55,7 +55,7 @@ class m181008_000000_create_tables extends Migration
 
         $this->createTable('{{%money}}', [
             'id' => $this->primaryKey(),
-            'amount' => $this->float()->notNull(),
+            'amount' => $this->float()->notNull()->defaultValue(50000),
         ]);
 
         $this->insert('{{%money}}', [
@@ -65,7 +65,7 @@ class m181008_000000_create_tables extends Migration
 
         $this->createTable('{{%product}}', [
             'id' => $this->primaryKey(),
-            'name' => $this->string()->notNull(),
+            'name' => $this->string()->notNull()->defaultValue(''),
             'is_reserved' => $this->boolean()->notNull()->defaultValue(false),
         ]);
 
@@ -78,8 +78,8 @@ class m181008_000000_create_tables extends Migration
 
         $this->createTable('{{%prize_loyalty}}', [
             'id' => $this->primaryKey(),
-            'amount' => $this->float()->notNull(),
-            'user_prize_id' => $this->integer()->notNull(),
+            'amount' => $this->float()->notNull()->defaultValue(0),
+            'user_prize_id' => $this->integer(),
         ]);
         $this->addForeignKey(
             'fk-prize_loyalty-user_prize_id',
@@ -92,9 +92,9 @@ class m181008_000000_create_tables extends Migration
 
         $this->createTable('{{%prize_money}}', [
             'id' => $this->primaryKey(),
-            'amount' => $this->float()->notNull(),
-            'user_prize_id' => $this->integer()->notNull(),
-            'money_id' => $this->integer()->notNull(),
+            'amount' => $this->float()->notNull()->defaultValue(0),
+            'user_prize_id' => $this->integer(),
+            'money_id' => $this->integer(),
         ]);
         $this->addForeignKey(
             'fk-prize_money-user_prize_id',
@@ -115,8 +115,8 @@ class m181008_000000_create_tables extends Migration
 
         $this->createTable('{{%prize_product}}', [
             'id' => $this->primaryKey(),
-            'user_prize_id' => $this->integer()->notNull(),
-            'product_id' => $this->integer()->notNull(),
+            'user_prize_id' => $this->integer(),
+            'product_id' => $this->integer(),
         ]);
         $this->addForeignKey(
             'fk-prize_product-user_prize_id',

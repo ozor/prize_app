@@ -28,7 +28,14 @@ class UserPrize extends ActiveRecord
 
     public static function tableName()
     {
-        return '{{user_prize}}';
+        return '{{%user_prize}}';
+    }
+
+    public function rules()
+    {
+        return [
+            ['prize_type', 'string'],
+        ];
     }
 
     /**

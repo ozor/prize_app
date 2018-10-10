@@ -19,11 +19,12 @@ class PrizeMoneyService implements PrizeInterface
     {
         $userPrizeModel = new UserPrize();
         $userPrizeModel->prize_type = Prize::TYPE_MONEY;
-        $userPrizeModel->save();
+        $userPrizeModel->save(false);
 
         $model = new PrizeMoney();
-        $model->link('UserPrise', $userPrizeModel);
-        $model->link('Money', Money::findOne());
+        $userPrizeModel->save(false);
+        $model->link('userPrise', $userPrizeModel);
+        $model->link('money', Money::find()->one());
 
         $amount = rand($model->getMinAmount(), $model->getMaxAmount());
 
@@ -39,15 +40,15 @@ class PrizeMoneyService implements PrizeInterface
     /**
      * TODO: Not checked for workability yet
      *
-     * @param PrizeMoneyModel $model
+     * @param PrizeMoney $model
      */
     public function refuse($model)
     {
-        $transaction = PrizeMoneyModel::getDb()->beginTransaction();
+        $transaction = PrizeMoney::getDb()->beginTransaction();
 
         $moneyModel = $model->getMoney();
         $moneyModel->amount += $model->amount;
-        $moneyModel->save();
+        $moneyModel->save(false);
 
         $model->delete();
 
@@ -55,19 +56,19 @@ class PrizeMoneyService implements PrizeInterface
     }
 
     /**
-     * @param PrizeMoneyModel $model
+     * @param PrizeMoney $model
      * @param float $amount
      */
     private function moveMoneyToUser($model, $amount)
     {
-        $transaction = PrizeMoneyModel::getDb()->beginTransaction();
+        $transaction = PrizeMoney::getDb()->beginTransaction();
 
         $model->amount = $amount;
-        $model->save();
+        $model->save(false);
 
         $moneyModel = $model->getMoney();
         $moneyModel->amount -= $amount;
-        $moneyModel->save();
+        $moneyModel->save(false);
 
         $transaction->commit();
     }

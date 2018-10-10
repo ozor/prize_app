@@ -3,6 +3,7 @@
 return [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=prize-mysql;port=3306;dbname=prizeapp',
+//    'dsn' => 'mysql:host=127.0.0.50;port=3306;dbname=prizeapp',
     'username' => 'root',
     'password' => 'root',
     'charset' => 'utf8',

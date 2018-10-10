@@ -25,7 +25,7 @@ class PrizeMoney extends ActiveRecord
 
     public static function tableName()
     {
-        return '{{prize_money}}';
+        return '{{%prize_money}}';
     }
 
     /**

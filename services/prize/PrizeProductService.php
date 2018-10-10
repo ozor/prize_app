@@ -14,11 +14,11 @@ class PrizeProductService implements PrizeInterface
     {
         $userPrizeModel = new UserPrize();
         $userPrizeModel->prize_type = Prize::TYPE_PRODUCT;
-        $userPrizeModel->save();
+        $userPrizeModel->save(false);
 
         $model = new PrizeProduct();
-        $model->link('UserPrise', $userPrizeModel);
-        $model->save();
+        $model->save(false);
+        $model->link('userPrise', $userPrizeModel);
 
         $products = $model->getProducts();
         $item = rand(0, (count($products)-1));
@@ -27,7 +27,7 @@ class PrizeProductService implements PrizeInterface
         $product = $products[$item];
 
         $product->is_reserved = true;
-        $product->save();
+        $product->save(false);
 
         return $product;
     }

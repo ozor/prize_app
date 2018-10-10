@@ -32,7 +32,14 @@ class PrizeLoyalty extends ActiveRecord
 
     public static function tableName()
     {
-        return '{{prize_loyalty}}';
+        return '{{%prize_loyalty}}';
+    }
+
+    public function rules()
+    {
+        return [
+            ['amount', 'float'],
+        ];
     }
 
     /**
