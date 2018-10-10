@@ -2,9 +2,9 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=prizeapp',
-    'username' => 'mysql',
-    'password' => 'mysql',
+    'dsn' => 'mysql:host=prize-mysql;port=3306;dbname=prizeapp',
+    'username' => 'root',
+    'password' => 'root',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)

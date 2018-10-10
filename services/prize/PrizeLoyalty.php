@@ -12,6 +12,8 @@ class PrizeLoyalty implements PrizeInterface
     {
         $userPrizeModel = new UserPrize();
         $userPrizeModel->prize_type = Prize::TYPE_LOYALTY;
+
+        var_dump($userPrizeModel); exit;
         $userPrizeModel->save();
 
         // TODO

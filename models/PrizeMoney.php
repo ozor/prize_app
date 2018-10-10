@@ -28,7 +28,7 @@ class PrizeMoney extends ActiveRecord
      */
     public function getUserPrise()
     {
-        return $this->hasOne(UserPrize::class, ['id' => 'user_prise_id']);
+        return $this->hasOne(UserPrize::class, ['id' => 'user_prize_id']);
     }
 
     /**

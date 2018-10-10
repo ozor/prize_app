@@ -42,11 +42,11 @@ class UserPrize extends ActiveRecord
     {
         switch ($this->prizeType) {
             case Prize::TYPE_PRODUCT:
-                return $this->hasMany(PrizeProduct::class, ['user_prise_id' => 'id']);
+                return $this->hasMany(PrizeProduct::class, ['user_prize_id' => 'id']);
             case Prize::TYPE_MONEY:
-                return $this->hasOne(PrizeMoney::class, ['user_prise_id' => 'id']);
+                return $this->hasOne(PrizeMoney::class, ['user_prize_id' => 'id']);
             case Prize::TYPE_LOYALTY:
-                return $this->hasOne(PrizeLoyalty::class, ['user_prise_id' => 'id']);
+                return $this->hasOne(PrizeLoyalty::class, ['user_prize_id' => 'id']);
             default:
                 throw new \Exception('Wrong type of prize');
         }
