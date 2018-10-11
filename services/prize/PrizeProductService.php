@@ -7,34 +7,40 @@ use app\models\Product;
 use app\models\UserPrize;
 use app\models\PrizeProduct;
 
-class PrizeProductService implements PrizeInterface
+class PrizeProductService extends PrizeServiceAbstract
 {
     // TODO: Not checked for workability yet
     public function generate()
     {
-        $userPrizeModel = new UserPrize();
-        $userPrizeModel->prize_type = Prize::TYPE_PRODUCT;
-        $userPrizeModel->save(false);
-
-        $model = new PrizeProduct();
-        $model->save(false);
-        $model->link('userPrise', $userPrizeModel);
-
+        $model = $this->createPrizeModel(Prize::TYPE_PRODUCT, new PrizeProduct());
         $products = $model->getProducts();
-        $item = rand(0, (count($products)-1));
 
-        /** @var Product $product */
-        $product = $products[$item];
+        if (count($products)) {
+            $item = rand(0, (count($products)-1));
 
-        $product->is_reserved = true;
-        $product->save(false);
+            /** @var Product $product */
+            $product = $products[$item];
 
-        return $product;
+            $model->link('product', $product);
+            $model->save(false);
+
+            $product->is_reserved = true;
+            $product->save(false);
+
+            return $product;
+        }
+
+        return $model;
     }
 
     // TODO: Not implemented yet
     public function refuse($model)
     {
         $model->delete();
+    }
+
+    public function findModel($id)
+    {
+        return PrizeProduct::findOne(['id' => $id]);
     }
 }

@@ -5,6 +5,12 @@ namespace app\models;
 use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecord;
 
+/**
+ * @property integer $id
+ * @property float   $amount   Amount of loyalty points winned by User but not merged with User's loyalty points yet.
+ *                             It amount stored here because User may refuse to receive the prize.
+ *                             If it happens the loyalty points will erased.
+ */
 class PrizeLoyalty extends ActiveRecord
 {
     const MIN_AMOUNT = 1;
@@ -16,30 +22,17 @@ class PrizeLoyalty extends ActiveRecord
      */
     const EXCHANGE_RATE = 10;
 
-    /**
-     * @var int
-     */
-    public $id;
-
-    /**
-     * Amount of loyalty points winned by User but not merged with User's loyalty points yet.
-     * It amount stored here because User may refuse to receive the prize.
-     * If it happens the loyalty points will erased.
-     *
-     * @var float
-     */
-    public $amount;
-
     public static function tableName()
     {
         return '{{%prize_loyalty}}';
     }
 
-    public function rules()
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
     {
-        return [
-            ['amount', 'float'],
-        ];
+        return $this->getPrimaryKey();
     }
 
     /**

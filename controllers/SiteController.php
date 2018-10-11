@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\services\BankAPIService;
 use app\services\ExchangeService;
+use app\services\prize\PrizeFactory;
 use app\services\PrizeService;
 use Yii;
 use yii\filters\AccessControl;
@@ -64,10 +65,16 @@ class SiteController extends Controller
     public function actionIndex()
     {
         if (Yii::$app->request->post('getPrize', false)) {
-            (new PrizeService())->generate(); // TODO: generate() method didn't tested for workability yet
+            $prizeService = new PrizeService();
+            $prizeService->generate(); // TODO: generate() method didn't tested for workability yet
+
             Yii::$app->session->setFlash('result', 'You are win!');
 
-            return $this->redirect(['result']);
+            return $this->redirect([
+                'result',
+                'id'   => $prizeService->getPrizeValue()->getId(),
+                'type' => $prizeService->getPrizeType()
+            ]);
         }
 
         return $this->render('index');
@@ -78,11 +85,11 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionResult($id) // TODO: $id - the ID of UserPrize Model
+    public function actionResult($id, $type)
     {
-        // TODO: Render correct view
-
-        return $this->render('result');
+        return $this->render('result', [
+            'model' => PrizeFactory::getPrize($type)->findModel($id)
+        ]);
     }
 
     /**
@@ -106,7 +113,7 @@ class SiteController extends Controller
     public function actionMoneyToLoyalty()
     {
         // TODO: Money to Loyalty
-        (new ExchangeService())->exchangeMoneyToLoyalty();
+//        (new ExchangeService())->exchangeMoneyToLoyalty();
 
         Yii::$app->session->setFlash('result', 'Money was exchanged to your loyalty points');
 
@@ -121,7 +128,7 @@ class SiteController extends Controller
     public function actionSendMoneyToAccount()
     {
         // TODO: Send money
-        (new BankAPIService())->sendToAccount();
+//        (new BankAPIService())->sendToAccount();
 
         Yii::$app->session->setFlash('result', 'Money was sent to your account');
 

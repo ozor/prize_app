@@ -7,7 +7,7 @@ use app\models\Prize;
 use app\models\UserPrize;
 use app\models\PrizeMoney;
 
-class PrizeMoneyService implements PrizeInterface
+class PrizeMoneyService extends PrizeServiceAbstract
 {
     /**
      * TODO: Not checked for workability yet
@@ -17,14 +17,10 @@ class PrizeMoneyService implements PrizeInterface
      */
     public function generate()
     {
-        $userPrizeModel = new UserPrize();
-        $userPrizeModel->prize_type = Prize::TYPE_MONEY;
-        $userPrizeModel->save(false);
-
-        $model = new PrizeMoney();
-        $userPrizeModel->save(false);
-        $model->link('userPrise', $userPrizeModel);
+        $model = $this->createPrizeModel(Prize::TYPE_MONEY, new PrizeMoney());
         $model->link('money', Money::find()->one());
+        $model->save(false);
+        $model->refresh();
 
         $amount = rand($model->getMinAmount(), $model->getMaxAmount());
 
@@ -34,7 +30,7 @@ class PrizeMoneyService implements PrizeInterface
 
         $this->moveMoneyToUser($model, $amount);
 
-        return $amount;
+        return $model;
     }
 
     /**
@@ -46,13 +42,18 @@ class PrizeMoneyService implements PrizeInterface
     {
         $transaction = PrizeMoney::getDb()->beginTransaction();
 
-        $moneyModel = $model->getMoney();
+        $moneyModel = $model->getMoney()->one();
         $moneyModel->amount += $model->amount;
         $moneyModel->save(false);
 
         $model->delete();
 
         $transaction->commit();
+    }
+
+    public function findModel($id)
+    {
+        return PrizeMoney::findOne(['id' => $id]);
     }
 
     /**
@@ -66,7 +67,7 @@ class PrizeMoneyService implements PrizeInterface
         $model->amount = $amount;
         $model->save(false);
 
-        $moneyModel = $model->getMoney();
+        $moneyModel = $model->getMoney()->one();
         $moneyModel->amount -= $amount;
         $moneyModel->save(false);
 

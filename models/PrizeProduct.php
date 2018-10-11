@@ -5,6 +5,9 @@ namespace app\models;
 use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecord;
 
+/**
+ * @property integer $id
+ */
 class PrizeProduct extends ActiveRecord
 {
     /**
@@ -15,6 +18,14 @@ class PrizeProduct extends ActiveRecord
     public static function tableName()
     {
         return '{{%prize_product}}';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->getPrimaryKey();
     }
 
     /**
@@ -35,7 +46,6 @@ class PrizeProduct extends ActiveRecord
 
     public function getProducts()
     {
-//        return $this->hasMany(Product::class, ['id' => 'id']);
-        return []; // TODO: findAll()
+        return Product::findAll([]);
     }
 }

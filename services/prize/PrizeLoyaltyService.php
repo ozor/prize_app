@@ -6,24 +6,28 @@ use app\models\Prize;
 use app\models\UserPrize;
 use app\models\PrizeLoyalty;
 
-class PrizeLoyaltyService implements PrizeInterface
+class PrizeLoyaltyService extends PrizeServiceAbstract
 {
     // TODO: Not implemented yet
     public function generate()
     {
-        $userPrizeModel = new UserPrize();
-        $userPrizeModel->prize_type = Prize::TYPE_LOYALTY;
-        $userPrizeModel->save(false);
+        $model = $this->createPrizeModel(Prize::TYPE_LOYALTY, new PrizeLoyalty());
 
-        $model = new PrizeLoyalty();
         $model->amount = rand(PrizeLoyalty::MIN_AMOUNT, PrizeLoyalty::MAX_AMOUNT);
         $model->save(false);
-        $model->link('userPrise', $userPrizeModel);
+        $model->refresh();
+
+        return $model;
     }
 
     // TODO: Not implemented yet
     public function refuse($model)
     {
         $model->delete();
+    }
+
+    public function findModel($id)
+    {
+        return PrizeLoyalty::findOne(['id' => $id]);
     }
 }

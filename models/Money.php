@@ -4,22 +4,22 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 
+/**
+ * @property integer $id
+ * @property float   $amount   Amount of money currently presents in our deposit
+ */
 class Money extends ActiveRecord
 {
-    /**
-     * @var int
-     */
-    public $id;
-
-    /**
-     * Amount of money currently presents in our deposit
-     *
-     * @var float
-     */
-    public $amount;
-
     public static function tableName()
     {
         return '{{money}}';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->getPrimaryKey();
     }
 }

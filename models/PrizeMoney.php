@@ -5,27 +5,27 @@ namespace app\models;
 use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecord;
 
+/**
+ * @property integer $id
+ * @property float   $amount   Amount of money winned by User but not received yet.
+ *                             It amount stored here because User may refuse to receive the prize.
+ *                             If it happens the money will return to $amount.
+ */
 class PrizeMoney extends ActiveRecord
 {
     const MAX_DEFAULT_AMOUNT = 100;
 
-    /**
-     * @var int
-     */
-    public $id;
-
-    /**
-     * Amount of money winned by User but not received yet.
-     * It amount stored here because User may refuse to receive the prize.
-     * If it happens the money will return to $amount.
-     *
-     * @var float
-     */
-    public $amount;
-
     public static function tableName()
     {
         return '{{%prize_money}}';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->getPrimaryKey();
     }
 
     /**
@@ -51,7 +51,7 @@ class PrizeMoney extends ActiveRecord
 
     public function getMaxAmount()
     {
-        $availableMoney = $this->getMoney()->amount;
+        $availableMoney = $this->getMoney()->one()->amount;
 
         return (self::MAX_DEFAULT_AMOUNT >= $availableMoney)
             ? self::MAX_DEFAULT_AMOUNT

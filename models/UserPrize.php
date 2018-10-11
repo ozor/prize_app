@@ -4,38 +4,26 @@ namespace app\models;
 
 use yii\db\ActiveQueryInterface;
 use yii\db\ActiveRecord;
+use yii\web\IdentityInterface;
 
+/**
+ * @property integer $id
+ * @property string  $prize_type    Type of prize (money|product|loyalty)
+ * @property boolean $is_received   Does User receive this prize or not
+ */
 class UserPrize extends ActiveRecord
 {
-    /**
-     * @var int
-     */
-    public $id;
-
-    /**
-     * Type of prize (money|product|loyalty)
-     *
-     * @var string
-     */
-    public $prize_type;
-
-    /**
-     * Does User receive this prize or not
-     *
-     * @var boolean
-     */
-    public $is_received = false;
-
     public static function tableName()
     {
         return '{{%user_prize}}';
     }
 
-    public function rules()
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
     {
-        return [
-            ['prize_type', 'string'],
-        ];
+        return $this->getPrimaryKey();
     }
 
     /**

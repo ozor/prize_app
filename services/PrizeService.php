@@ -3,6 +3,9 @@
 namespace app\services;
 
 use app\models\Prize;
+use app\models\PrizeLoyalty;
+use app\models\PrizeMoney;
+use app\models\PrizeProduct;
 use app\models\UserPrize;
 use app\services\prize\PrizeFactory;
 use Yii;
@@ -22,9 +25,9 @@ class PrizeService
     private $prizeType;
 
     /**
-     * Amount|count of prize(s)
+     * Prize model
      *
-     * @var float
+     * @var PrizeMoney|PrizeLoyalty|PrizeProduct
      */
     private $prizeValue;
 
@@ -55,17 +58,11 @@ class PrizeService
         PrizeFactory::getPrize($model->prize_type)->refuse($model);
     }
 
-    /**
-     * @return string
-     */
     public function getPrizeType()
     {
         return $this->prizeType;
     }
 
-    /**
-     * @return float
-     */
     public function getPrizeValue()
     {
         return $this->prizeValue;
